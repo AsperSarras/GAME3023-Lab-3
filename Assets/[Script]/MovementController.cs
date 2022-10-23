@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
@@ -7,7 +8,7 @@ using static UnityEditor.PlayerSettings;
 public class MovementController : MonoBehaviour
 {
     public Rigidbody2D rigidbody;
-   // private new SpriteRenderer spriteRenderer;
+
     private Vector2 direction = Vector2.down;
     public float speed = 5f;
 
@@ -31,6 +32,14 @@ public class MovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(Singleton.Instance.Load == true)
+        {
+            foreach (string line in System.IO.File.ReadLines(@"..\GAME3023-Lab-3\SaveData.txt"))
+            {
+                string[] csv = line.Split(" ");
+                transform.position = new Vector3(float.Parse(csv[0]), float.Parse(csv[1]), 0);
+            }
+        }
 
     }
 
@@ -73,6 +82,19 @@ public class MovementController : MonoBehaviour
 
     }
 
+    public void Save()
+    {
+        using (StreamWriter sw = new StreamWriter("SaveData.txt"))
+        {
+            string x = transform.position.x.ToString();
+            string y = transform.position.y.ToString();
+
+            string data = x + " " + y;
+            sw.WriteLine(data); 
+
+        }
+    }
+
     IEnumerator Move(Vector3 tPos)
     {
         Vector3 sPos = transform.position;
@@ -97,20 +119,20 @@ public class MovementController : MonoBehaviour
         isMoving = false;
 
         //If after moving the Character is still in a bush will be chances to start a battle
-        if (inBush == true)
-        {
-            float Chance = Random.value; // a random number between 0 and 1.0
-            Debug.Log("Random: " + Chance);
-            if (Chance < 0.1) // a 10% chance
-            {
-                Debug.Log("BATTLE");
-                battleS.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.Log("AVOID");
-            }
-        }
+        //if (inBush == true)
+        //{
+        //    float Chance = Random.value; // a random number between 0 and 1.0
+        //    Debug.Log("Random: " + Chance);
+        //    if (Chance < 0.1) // a 10% chance
+        //    {
+        //        Debug.Log("BATTLE");
+        //        battleS.gameObject.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("AVOID");
+        //    }
+        //}
 
     }
 }
