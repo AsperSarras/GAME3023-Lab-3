@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovementController : MonoBehaviour
@@ -11,6 +10,8 @@ public class MovementController : MonoBehaviour
 
     private Vector2 direction = Vector2.down;
     public float speed = 5f;
+
+    public Animator Animations;
 
     //Needed to know if it is Moving
     public bool isMoving = false;
@@ -32,14 +33,14 @@ public class MovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(Singleton.Instance.Load == true)
-        {
-            foreach (string line in System.IO.File.ReadLines(@"..\GAME3023-Lab-3\SaveData.txt"))
-            {
-                string[] csv = line.Split(" ");
-                transform.position = new Vector3(float.Parse(csv[0]), float.Parse(csv[1]), 0);
-            }
-        }
+        //if(Singleton.Instance.Load == true)
+        //{
+        //    foreach (string line in System.IO.File.ReadLines(@"..\GAME3023-Lab-3\SaveData.txt"))
+        //    {
+        //        string[] csv = line.Split(" ");
+        //        transform.position = new Vector3(float.Parse(csv[0]), float.Parse(csv[1]), 0);
+        //    }
+        //}
 
     }
 
@@ -53,6 +54,23 @@ public class MovementController : MonoBehaviour
                 //Check if there is any movement
                 movement.x = Input.GetAxisRaw("Horizontal");
                 movement.y = Input.GetAxisRaw("Vertical");
+
+                if(movement.x > 0)
+                {
+                    Animations.SetInteger("Direction", 1);
+                }
+                else if(movement.x < 0)
+                {
+                    Animations.SetInteger("Direction", 3);
+                }
+                else if (movement.y > 0)
+                {
+                    Animations.SetInteger("Direction", 0);
+                }
+                else if (movement.y < 0)
+                {
+                    Animations.SetInteger("Direction", 2);
+                }
 
                 //No diagonal movement
                 if (movement.x != 0)
@@ -68,6 +86,8 @@ public class MovementController : MonoBehaviour
                         var targetPos = transform.position; //Makes a vector with targer position
                         targetPos.x += movement.x; //Add either 1 or -1 to X which is the tile on top or down
                         targetPos.y += movement.y; //Same but with Y either left or right
+
+                        
 
                         StartCoroutine(Move(targetPos)); //Start Move Coroutine for tile base movement
                     }
@@ -100,6 +120,7 @@ public class MovementController : MonoBehaviour
         Vector3 sPos = transform.position;
 
         isMoving = true; //Now it is moving
+        Animations.SetBool("isMoving", true);
 
         //Will move towards the new position until the diference in distance is
         //less than Epsilon (The smallest value that a float can have different from zero.)
@@ -117,22 +138,23 @@ public class MovementController : MonoBehaviour
         transform.position = tPos;
         //Is no longer moving
         isMoving = false;
+        Animations.SetBool("isMoving", false);
 
         //If after moving the Character is still in a bush will be chances to start a battle
-        //if (inBush == true)
-        //{
-        //    float Chance = Random.value; // a random number between 0 and 1.0
-        //    Debug.Log("Random: " + Chance);
-        //    if (Chance < 0.1) // a 10% chance
-        //    {
-        //        Debug.Log("BATTLE");
-        //        battleS.gameObject.SetActive(true);
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("AVOID");
-        //    }
-        //}
+        if (inBush == true)
+        {
+            float Chance = Random.value; // a random number between 0 and 1.0
+            Debug.Log("Random: " + Chance);
+            if (Chance < 0.1) // a 10% chance
+            {
+                Debug.Log("BATTLE");
+                battleS.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("AVOID");
+            }
+        }
 
     }
 }

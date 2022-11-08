@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleSceneScript : MonoBehaviour
+public class PlayerAnimScript : MonoBehaviour
 {
-
-
     // Start is called before the first frame update
     void Start()
     {

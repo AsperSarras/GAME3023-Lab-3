@@ -7,6 +7,8 @@ public class ButtonScript : MonoBehaviour
     //To toggle the battle scene on and off
     public GameObject BattlseScene;
 
+    public BattleSceneManager BattleSceneManager;
+
     // Start is called before the first frame update
     void Start()
     {
