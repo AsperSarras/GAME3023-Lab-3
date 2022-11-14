@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3346f7ba669c392478d7ca11e7a3a883, type: 3}
-  m_Name: New Pokemon
+  m_Script: {fileID: 11500000, guid: c65cde73da08cb34c88e302cad4456a4, type: 3}
+  m_Name: Growth
   m_EditorClassIdentifier: 
-  poke1: {fileID: 21300000, guid: 98101c15cea38ff4d8e1c95653c7aa9b, type: 3}
-  poke2: {fileID: 21300000, guid: 3d9a509c7a217f648b6824a296b1a189, type: 3}
-  isPlayerPokemon: 1
+  animationNamePlayer: Growth
+  animationNameEnemy: GrowthE
