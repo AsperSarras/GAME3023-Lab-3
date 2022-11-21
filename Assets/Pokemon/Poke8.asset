@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3346f7ba669c392478d7ca11e7a3a883, type: 3}
+  m_Name: Poke8
+  m_EditorClassIdentifier: 
+  poke1: {fileID: 21300000, guid: 7eee0090a7522ae408ecdef1aee3d9b7, type: 3}
+  poke2: {fileID: 21300000, guid: 4ee77053d821baf479a38a739586634b, type: 3}
+  attack0: {fileID: 11400000, guid: 91d5d3c77066d984ba425b7b5a1edf9d, type: 2}
+  attack1: {fileID: 11400000, guid: 2919801ffe0fbde4699db6d5de1b7ec1, type: 2}
+  attack2: {fileID: 11400000, guid: 76c1cd1c8304da448bfe31e9ab29fce2, type: 2}
+  attack3: {fileID: 11400000, guid: 21804dd292a89444ab6c2c6d3f379469, type: 2}

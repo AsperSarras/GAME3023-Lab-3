@@ -25,6 +25,7 @@ public class MovementController : MonoBehaviour
 
     //To enter battle screen
     public GameObject battleS;
+    public Bush selectedBush;
 
     private void Awake()
     {
@@ -115,6 +116,24 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bush") //if the object colliding with the trigger has Player tag
+        {
+            selectedBush = collision.gameObject.GetComponent<Bush>();
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bush") //if the object colliding with the trigger has Player tag
+        {
+            selectedBush = null;
+
+        }
+    }
+
     IEnumerator Move(Vector3 tPos)
     {
         Vector3 sPos = transform.position;
@@ -147,8 +166,9 @@ public class MovementController : MonoBehaviour
             Debug.Log("Random: " + Chance);
             if (Chance < 0.1) // a 10% chance
             {
-                Debug.Log("BATTLE");
                 battleS.gameObject.SetActive(true);
+                selectedBush.Encounter();
+
             }
             else
             {

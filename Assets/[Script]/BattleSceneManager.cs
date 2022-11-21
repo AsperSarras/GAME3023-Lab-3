@@ -37,6 +37,13 @@ public class BattleSceneManager : MonoBehaviour
         AttackBattleMenu.SetActive(false);
     }
 
+    public void PokemonBattle(Pokemon pokemon)
+    {
+        Pokemon passPokemon = pokemon;
+        PokemonSlotInBattle[1].GetComponent<PokemonScript>().pokemon = pokemon;
+        //PokemonSlotInBattle[1].GetComponent<PokemonScript>().PokemonBattleStartUpdate(passPokemon);
+    }
+
     public void BattleProgression()
     {
         if(InBattleProgresion == false)
