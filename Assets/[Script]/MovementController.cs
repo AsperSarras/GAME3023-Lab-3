@@ -10,6 +10,7 @@ public class MovementController : MonoBehaviour
 
     private Vector2 direction = Vector2.down;
     public float speed = 5f;
+    public float speedV = 5f;
 
     public Animator Animations;
 
@@ -27,9 +28,13 @@ public class MovementController : MonoBehaviour
     public GameObject battleS;
     public Bush selectedBush;
 
+    public Fader fader;
+    public AudioManager audioManager;
+
     private void Awake()
     {
-       rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
+        DontDestroyOnLoad(gameObject);
     }
     // Start is called before the first frame update
     void Start()
@@ -166,8 +171,9 @@ public class MovementController : MonoBehaviour
             Debug.Log("Random: " + Chance);
             if (Chance < 0.1) // a 10% chance
             {
-                battleS.gameObject.SetActive(true);
-                selectedBush.Encounter();
+                ToBattle();
+                //battleS.gameObject.SetActive(true);
+                //selectedBush.Encounter();
 
             }
             else
@@ -176,5 +182,55 @@ public class MovementController : MonoBehaviour
             }
         }
 
+    }
+
+    public IEnumerator GoToBattle()
+    {
+        yield return new WaitForSeconds(0.4f);
+        battleS.gameObject.SetActive(true);
+        selectedBush.Encounter();
+        fader.fadeOut();
+    }
+
+    public void ToBattle()
+    {
+        speed = 0;
+        fader.fadeIn();
+        audioManager.CrossFadeTO(AudioManager.TrackID.inTown);
+        StartCoroutine(GoToBattle());
+    }
+
+    public void GoToCave()
+    {
+
+        fader.fadeIn();
+        fader.StartCoroutine(fader.GoToCaveCoro());
+    }
+
+    public void GoToTown()
+    {
+
+        fader.fadeIn();
+        fader.StartCoroutine(fader.GoToTownCoro());
+    }
+
+    public void Flee() ////TEST
+    {
+        battleS.gameObject.SetActive(false);
+        audioManager.CrossFadeTO(AudioManager.TrackID.inCave);
+        speed = speedV;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("CaveNtrance"))
+        {
+            GoToCave();
+        }
+
+        if (other.CompareTag("CaveExit"))
+        {
+            GoToTown();
+        }
     }
 }
